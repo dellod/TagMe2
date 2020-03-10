@@ -12,19 +12,27 @@ namespace TagMe2.Models
         public static void query()
         {
             string queryString = "CREATE TABLE test(myuser int);";
-            string connectionString = "Data Source=tagme.database.windows.net;Initial Catalog=tagme;User ID=tagme;Password=********;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionString = "Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
+
                 try
                 {
                     connection.Open();
-                    command.ExecuteNonQuery();
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {
+                        Console.WriteLine("Success");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not open");
+                    }
                 }
                 catch (SqlException ex)
                 {
-                    Console.WriteLine("Connection failed");
+                    Console.WriteLine("Connection failed***************");
                 }
 
             }
