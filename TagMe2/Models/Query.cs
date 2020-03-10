@@ -8,7 +8,7 @@ namespace TagMe2.Models
 {
     public class Query
     {
-
+        // testing
         public static void query()
         {
             string queryString = "CREATE TABLE test(myuser int);";
