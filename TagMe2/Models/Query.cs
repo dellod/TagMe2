@@ -12,7 +12,7 @@ namespace TagMe2.Models
         public static void query()
         {
             string queryString = "CREATE TABLE test(myuser int);";
-            string connectionString = "Server=tcp:tagme.database.windows.net,1433;Initial Catalog=tagme;Persist Security Info=False;User ID=tagme;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            string connectionString = "Data Source=tagme.database.windows.net;Initial Catalog=tagme;User ID=tagme;Password=********;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
