@@ -17,13 +17,14 @@ namespace TagMe2.Models
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-
                 try
                 {
                     connection.Open();
                     if (connection.State == System.Data.ConnectionState.Open)
                     {
                         Console.WriteLine("Success");
+
+                        command.ExecuteNonQuery();
                     }
                     else
                     {
