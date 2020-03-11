@@ -67,6 +67,10 @@ namespace TagMe2.Models
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Changes the original text field of the comment but will always add "(Edited)" on a new line.
+        /// </summary>
+        /// <param name="newText"></param>
         public void editComment(string newText)
         {
             Text = newText + "\n(Edited)";
