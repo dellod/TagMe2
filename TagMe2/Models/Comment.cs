@@ -67,7 +67,12 @@ namespace TagMe2.Models
         #endregion
 
         #region Methods
+        public void editComment(string newText)
+        {
+            Text = newText + "\n(Edited)";
+        }
 
+        // TODO need to add queries.
         #endregion
     }
 }
