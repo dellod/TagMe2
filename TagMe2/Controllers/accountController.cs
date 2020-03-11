@@ -6,13 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TagMe2.Controllers
 {
-    public class LoginsController : Controller
+    public class accountController : Controller
     {
         
-        public IActionResult Register()
+        public IActionResult RegisterPage()
         {
             return View();
 
+        }
+
+        public IActionResult LoginPage()
+        {
+
+            return View();
         }
     }
 }
