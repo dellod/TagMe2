@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Web;
+
+
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace TagMe2.Models
 {
@@ -16,11 +21,15 @@ namespace TagMe2.Models
         /// <summary>
         /// CHANGE LATER TO IMAGE CLASS
         /// </summary>
+        [DisplayName("Upload File")]
         public string URL
         {
             get; set;
         }
 
+        public IFormFile ImageFile { get; set; }
+        
+            
         public Address Location
         {
             get; set;
