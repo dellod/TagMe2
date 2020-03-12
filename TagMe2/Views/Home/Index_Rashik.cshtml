@@ -1,6 +1,6 @@
-@using TagMe2.Models
+@using TagIt.Models
 
-@model List<TagMe2.Models.Post>
+@model List<TagIt.Models.Post>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -30,7 +30,7 @@
         padding: 20px;
         margin-top: 20px;
         width: 60%;
-        position: middle;
+        positiion: middle;
     }
 
     /* Clear floats after the columns */
@@ -82,22 +82,24 @@
 
         <h2>
             <a href="/profile">
-                <img class="profile" src=@post.ProfilePicture alt='img'>
+                <img class="profile" src=@post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
             </a>
-            @post.AuthorName
+            @post.PostAuthor.FirstName @post.PostAuthor.LastName
         </h2>
         <p>
             <a href="/map">
                 <span class="glyphicon glyphicon-map-marker"></span>
             </a>
-            @post.Location
-        <p>
-            <img class="fakeimg" src=@post.ImageURL style="height:200px;"></img>
+            @post.Location.City, @post.Location.Country
         </p>
+        <p>
+            <img class="fakeimg" src=@post.URL style="height:200px;">
+        </p>
+        <p>
         <a href="/like">
             <span class="glyphicon glyphicon-star-empty"></span>
         </a>
-
+        @post.Likes
         </p>
         <p> @post.Caption</p>
         <form class="w3-container w3-card-4 w3-light-grey">
