@@ -20,6 +20,7 @@ namespace TagMe2.Models
 
         /// <summary>
         /// CHANGE LATER TO IMAGE CLASS
+        /// I think we dont need, it can be saved in the IFormFile down, trying to figure it out(yossri)
         /// </summary>
         [DisplayName("Upload File")]
         public string URL

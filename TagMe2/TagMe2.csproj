@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\Index_Rashik.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ADONetHelper" Version="4.1.0" />
     <PackageReference Include="EntityFramework" Version="6.4.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
