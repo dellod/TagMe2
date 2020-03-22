@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// Will have to be integrated into microservice later on.
 /// </summary>
-namespace TagMe2.Models
+namespace TagMe2.Models.Comments
 {
     public class Comment
     {
@@ -32,6 +32,14 @@ namespace TagMe2.Models
         }
 
         public Boolean IsCurrentState
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// This will indicate the NEXT action that the comment has been instructed to take.
+        /// </summary>
+        public Commands Command
         {
             get; set;
         }
