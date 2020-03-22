@@ -30,6 +30,11 @@ namespace TagMe2.Models
         {
             get; set;
         }
+
+        public Boolean IsCurrentState
+        {
+            get; set;
+        }
         #endregion
 
         #region Constructors
