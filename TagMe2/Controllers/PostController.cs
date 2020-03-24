@@ -39,5 +39,17 @@ namespace TagMe2.Controllers
             return View();
 
         }
+
+        public IActionResult commentDisplay()
+        {
+            Guid i = Guid.NewGuid();
+            Profile prof = new Profile(null, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", null);
+            User user = new User(i, "yossri", "yossri", "khalil", prof);
+            Address location = new Address("calgary","canada","AB",1.0,1.0);
+                Post temp = new Post(i, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", location, user, "hell ya", 5, null);
+
+
+            return View(temp);
+        }
     }
 }
