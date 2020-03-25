@@ -13,6 +13,7 @@ namespace TagMe2.Controllers
 {
     public class PostController : Controller
     {
+        public static SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
         [HttpGet]
         public IActionResult Add()
         {
@@ -21,31 +22,28 @@ namespace TagMe2.Controllers
         }
 
         [HttpPost]
-        public String Add(Post Image, IFormFile ImageFile)
+        public IActionResult Add(Post Image)
         {
-            Console.WriteLine("in post");
-
-
-            SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
                 connection.Open();
                 string commandText = "Insert into Post (UUID,text, image_url) VALUES(@Id,@tx,@url)";
                 SqlCommand cmd = new SqlCommand(commandText, connection);
                 cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
                 cmd.Parameters.AddWithValue("@tx", Image.Caption);
 
-              //  string fileName = Path.GetFileName(Image.ImageFile.FileName);
-                //string extension = Path.GetExtension(Image.ImageFile.FileName);
-              //  fileName += extension;
-              //  Image.URL = fileName;
+                string fileName = Path.GetFileNameWithoutExtension(Image.ImageFile.FileName);
+                string extension = Path.GetExtension(Image.ImageFile.FileName);
+                fileName += extension;
+                Image.URL = fileName;
 
-           // cmd.Parameters.AddWithValue("@url", Image.URL);
+            cmd.Parameters.AddWithValue("@url", Image.URL);
 
+            Console.WriteLine(Image.URL);
 
               
-               // cmd.ExecuteNonQuery();
-               // connection.Close();
+                cmd.ExecuteNonQuery();
+                connection.Close();
 
-            return Image.ImageFile.FileName;
+            return View();
 
         }
 
