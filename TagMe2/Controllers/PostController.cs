@@ -35,7 +35,7 @@ namespace TagMe2.Controllers
                 fileName += extension;
                 Image.URL = fileName;
 
-            cmd.Parameters.AddWithValue("@url", Image.URL);
+                cmd.Parameters.AddWithValue("@url", Image.URL);
 
             Console.WriteLine(Image.URL);
 
