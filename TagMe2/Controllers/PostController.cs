@@ -24,25 +24,29 @@ namespace TagMe2.Controllers
         [HttpPost]
         public IActionResult Add(Post Image)
         {
-                connection.Open();
-                string commandText = "Insert into Post (UUID,text, image_url) VALUES(@Id,@tx,@url)";
-                SqlCommand cmd = new SqlCommand(commandText, connection);
-                cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
-                cmd.Parameters.AddWithValue("@tx", Image.Caption);
 
-                string fileName = Path.GetFileNameWithoutExtension(Image.ImageFile.FileName);
-                string extension = Path.GetExtension(Image.ImageFile.FileName);
-                fileName += extension;
-                Image.URL = fileName;
+            Image.addToDb(connection);
+            /* connection.Open();
+             string commandText = "Insert into Post (UUID,text, imagetype, imageblob) VALUES(@Id,@cap,@imageType, @imageblob)";
+             SqlCommand cmd = new SqlCommand(commandText, connection);
 
-            cmd.Parameters.AddWithValue("@url", Image.URL);
+             // adding the 'converting to blob section'
+             string imageName = Path.GetFileNameWithoutExtension(Image.ImageFile.FileName);
+             string imageType = Image.ImageFile.ContentType;
+             Stream sm = Image.ImageFile.OpenReadStream();
+             BinaryReader br = new BinaryReader(sm);
+             byte[] bytes = br.ReadBytes((Int32)sm.Length);
 
-            Console.WriteLine(Image.URL);
 
-              
-                cmd.ExecuteNonQuery();
-                connection.Close();
 
+             cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
+             cmd.Parameters.AddWithValue("@cap", Image.Caption);
+             cmd.Parameters.AddWithValue("@imageType", imageType);
+             cmd.Parameters.AddWithValue("@imageblob", bytes);
+
+             cmd.ExecuteNonQuery();
+             connection.Close();
+ */
             return View();
 
         }

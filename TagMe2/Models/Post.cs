@@ -7,6 +7,8 @@ using System.Web;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Data.SqlClient;
+using System.IO;
 
 namespace TagMe2.Models
 {
@@ -51,7 +53,7 @@ namespace TagMe2.Models
             get; set;
         }
 
-        public List<string> Tags
+        public string Tags
         {
             get; set;
         }
@@ -76,7 +78,7 @@ namespace TagMe2.Models
         /// <param name="caption"></param>
         /// <param name="likes"></param>
         /// <param name="tags"></param>
-        public Post(Guid id, string url, Address location, User postAuthor, string caption, int likes, List<string> tags)
+        public Post(Guid id, string url, Address location, User postAuthor, string caption, int likes, string tags)
         {
             ID = id;
             URL = url;
@@ -97,12 +99,58 @@ namespace TagMe2.Models
         }
         #endregion
 
+
+        public void addToDb(SqlConnection connection)
+        {
+            Guid postId = Guid.NewGuid();
+            connection.Open();
+            string commandText = "Insert into Post (UUID,text, imagetype, imageblob) VALUES(@Id,@cap,@imageType, @imageblob)";
+            SqlCommand cmd = new SqlCommand(commandText, connection);
+
+            // adding the 'converting to blob section'
+            string imageName = Path.GetFileNameWithoutExtension(this.ImageFile.FileName);
+            string imageType = this.ImageFile.ContentType;
+            Stream sm = this.ImageFile.OpenReadStream();
+            BinaryReader br = new BinaryReader(sm);
+            byte[] bytes = br.ReadBytes((Int32)sm.Length);
+
+
+
+            cmd.Parameters.AddWithValue("@Id", postId);
+            cmd.Parameters.AddWithValue("@cap", this.Caption);
+            cmd.Parameters.AddWithValue("@imageType", imageType);
+            cmd.Parameters.AddWithValue("@imageblob", bytes);
+
+            cmd.ExecuteNonQuery();
+       
+
+
+
+
+            string postTagsQuery = "Insert into PostTags (PostID, Tag) VALUES(@PID,@tag)";
+            SqlCommand addTagsCmd = new SqlCommand(postTagsQuery, connection);
+            string[] tagsArr = Tags.Split("@");
+            addTagsCmd.Parameters.AddWithValue("@PID", postId);
+            addTagsCmd.Parameters.AddWithValue("@tag", string.Empty);
+            foreach (string tag in tagsArr)
+            {
+                if (!tag.Equals(""))
+                {
+                    addTagsCmd.Parameters["@Tag"].Value = tag;
+                    addTagsCmd.ExecuteNonQuery();
+                }
+            }
+            Console.WriteLine(Tags);
+
+            connection.Close();
+        }
+
         #region Methods
         /// <summary>
         /// Adds a new tag to the Tag list, but there can only be 5 tags for each post.
         /// </summary>
         /// <param name="newTag"></param>
-        public void addNewTag(string newTag)
+      /*  public void addNewTag(string newTag)
         {
             if(Tags.Count <= 5)
             {
@@ -112,7 +160,7 @@ namespace TagMe2.Models
             {
                 Console.WriteLine("CANNOT ADD MORE THAN 5 TAGS");
             }
-        }
+        }*/
 
         /// <summary>
         /// Increments the likes that the post has.
@@ -136,7 +184,7 @@ namespace TagMe2.Models
         /// </summary>
         /// <param name="tagToRemove"></param>
         /// <returns></returns>
-        public string removeTag(string tagToRemove)
+       /* public string removeTag(string tagToRemove)
         {
             if(!Tags.Any())
             {
@@ -145,7 +193,7 @@ namespace TagMe2.Models
             string takingOut = Tags.ElementAt(Tags.IndexOf(tagToRemove));
             Tags.RemoveAt(Tags.IndexOf(tagToRemove));
             return takingOut;
-        }
+        }*/
         #endregion
     }
 }
