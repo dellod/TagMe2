@@ -13,6 +13,7 @@ namespace TagMe2.Controllers
 {
     public class PostController : Controller
     {
+        public static SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
         [HttpGet]
         public IActionResult Add()
         {
@@ -23,9 +24,6 @@ namespace TagMe2.Controllers
         [HttpPost]
         public IActionResult Add(Post Image)
         {
-            
-            
-                SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
                 connection.Open();
                 string commandText = "Insert into Post (UUID,text, image_url) VALUES(@Id,@tx,@url)";
                 SqlCommand cmd = new SqlCommand(commandText, connection);
