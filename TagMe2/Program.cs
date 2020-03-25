@@ -14,7 +14,7 @@ namespace TagMe2
     {
         public static void Main(string[] args)
         {
-            Query.query();
+
             CreateHostBuilder(args).Build().Run();
         }
 
