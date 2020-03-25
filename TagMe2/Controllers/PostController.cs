@@ -21,31 +21,31 @@ namespace TagMe2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Post Image)
+        public String Add(Post Image, IFormFile ImageFile)
         {
-            
-            
-                SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
+            Console.WriteLine("in post");
+
+
+            SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
                 connection.Open();
                 string commandText = "Insert into Post (UUID,text, image_url) VALUES(@Id,@tx,@url)";
                 SqlCommand cmd = new SqlCommand(commandText, connection);
                 cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
                 cmd.Parameters.AddWithValue("@tx", Image.Caption);
 
-                string fileName = Path.GetFileNameWithoutExtension(Image.ImageFile.FileName);
-                string extension = Path.GetExtension(Image.ImageFile.FileName);
-                fileName += extension;
-                Image.URL = fileName;
+              //  string fileName = Path.GetFileName(Image.ImageFile.FileName);
+                //string extension = Path.GetExtension(Image.ImageFile.FileName);
+              //  fileName += extension;
+              //  Image.URL = fileName;
 
-            cmd.Parameters.AddWithValue("@url", Image.URL);
+           // cmd.Parameters.AddWithValue("@url", Image.URL);
 
-            Console.WriteLine(Image.URL);
 
               
-                cmd.ExecuteNonQuery();
-                connection.Close();
+               // cmd.ExecuteNonQuery();
+               // connection.Close();
 
-            return View();
+            return Image.ImageFile.FileName;
 
         }
 
