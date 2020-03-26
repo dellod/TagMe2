@@ -59,7 +59,7 @@ namespace TagMe2.Controllers
             Address location = new Address("calgary","canada","AB",1.0,1.0);
             connection.Open();
             SqlCommand command = new SqlCommand("Select imageblob from Post where text=@zip", connection);
-            command.Parameters.AddWithValue("@zip", "test number 11");
+            command.Parameters.AddWithValue("@zip", "italy1");
 
             //SqlDataReader reader = command.ExecuteReader();
             byte[] bytes = (byte[])command.ExecuteScalar();
@@ -76,5 +76,33 @@ namespace TagMe2.Controllers
 
             return View(temp);
         }
+
+        [HttpGet]
+        public IActionResult Search(string tag)
+        {
+            connection.Open();
+            string commandText = "SELECT * FROM (Post AS p JOIN PostTags AS pt ON pt.PostID = p.UUID) WHERE pt.Tag = '" + tag + "' ;";
+            SqlCommand cmd = new SqlCommand(commandText, connection);
+            DataTable table = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            cmd.ExecuteNonQuery();
+            adapter.Fill(table);
+            List<Post> postsFound = new List<Post>();
+
+           
+            int i = 0;
+            foreach (DataRow row in table.Rows)
+            {
+                Guid a = Guid.Parse(row["UUID"].ToString());
+
+                byte[] bytes = (byte[])row["imageblob"];
+                string strBase64 = Convert.ToBase64String(bytes);
+                string url = "data:Image/png;base64," + strBase64;
+                postsFound.Add(new Post(a, url, null, null, row["text"].ToString(), 5, null)); i++;
+            }
+            connection.Close();
+            return View("allimageView", postsFound);
+        }
+
     }
 }
