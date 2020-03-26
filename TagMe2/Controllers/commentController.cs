@@ -12,6 +12,7 @@ namespace TagMe2.Controllers
     /// </summary>
     public class commentController : Controller
     {
-
+        //Need to call comment that are under the posts
+        
     }
 }
