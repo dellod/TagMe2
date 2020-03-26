@@ -37,6 +37,14 @@ namespace TagMe2.Models.Comments
             get; set;
         }
 
+        /// <summary>
+        /// Indicates if the comment is nested or not.
+        /// </summary>
+        public Boolean IsNestedComment
+        {
+            get; set;
+        }
+
         public Boolean IsCurrentState
         {
             get; set;
@@ -74,6 +82,10 @@ namespace TagMe2.Models.Comments
             Post_ID = postId;
             Text = text;
             Author = author;
+
+            // Initially put in this state but can be changed later on if needed.
+            IsNestedComment = false;
+            IsCurrentState = false;
         }
 
         /// <summary>

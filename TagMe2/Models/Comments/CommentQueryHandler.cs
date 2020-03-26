@@ -10,7 +10,7 @@ namespace TagMe2.Models.Comments
 {
     public class CommentQueryHandler
     {
-        Comment displayComment(Guid id)
+        public static Comment displayComment(Guid id)
         {
             //have query here to look for comment based on ID
             return null;
