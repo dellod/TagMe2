@@ -1,0 +1,111 @@
+﻿@using TagMe2.Models
+
+@model List<TagMe2.Models.Post>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<style>
+    #container {
+        position: relative;
+        font-family: Arial;
+    }
+
+    /* Fake image */
+    .fakeimg {
+        width: 90%;
+        padding: 10px;
+    }
+
+    /* Add a card effect for articles */
+    .card {
+        background-color: white;
+        padding: 20px;
+        margin-top: 20px;
+        width: 60%;
+        position: middle;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    div > img {
+        position: absolute;
+        width: 100%;
+        height: auto;
+        border: 1px solid red;
+    }
+
+    h2 {
+    }
+
+    img.profile {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        //padding-top: 7px;
+        border: 1px solid blue;
+    }
+
+    /*
+    #text-block {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background-color: black;
+        color: white;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+        */
+</style>
+
+
+
+
+
+@foreach (var post in Model)
+{
+
+    <div class="card">
+
+        <h2>
+            <a href="/profile">
+                <img class="profile" src=@post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
+            </a>
+            @post.PostAuthor.FirstName @post.PostAuthor.LastName
+        </h2>
+        <p>
+            <a href="/map">
+                <span class="glyphicon glyphicon-map-marker"></span>
+            </a>
+            @post.Location.City, @post.Location.Country
+        </p>
+        <p>
+            <img class="fakeimg" src=@post.URL style="height:200px;">
+        </p>
+        <p>
+            <a href="/like">
+                <span class="glyphicon glyphicon-star-empty"></span>
+            </a>
+            @post.Likes
+        </p>
+        <p> @post.Caption</p>
+        <form class="w3-container w3-card-4 w3-light-grey">
+            <input class="w3-input w3-border w3-round-xxlarge" name="commentBox" type="text" placeholder="comment">
+        </form>
+    </div>
+}
+
+

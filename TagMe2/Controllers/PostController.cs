@@ -57,7 +57,21 @@ namespace TagMe2.Controllers
             Profile prof = new Profile(null, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", null);
             User user = new User(i, "yossri", "yossri", "khalil", prof);
             Address location = new Address("calgary","canada","AB",1.0,1.0);
-            Post temp = new Post(i, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", location, user, "hell ya", 5, null);
+            connection.Open();
+            SqlCommand command = new SqlCommand("Select imageblob from Post where text=@zip", connection);
+            command.Parameters.AddWithValue("@zip", "test number 11");
+
+            //SqlDataReader reader = command.ExecuteReader();
+            byte[] bytes = (byte[])command.ExecuteScalar();
+            string strBase64 = Convert.ToBase64String(bytes);
+            string url = "data:Image/png;base64,"+strBase64;
+
+
+
+
+            Post temp = new Post(i, url, location, user, "hell ya", 5, null);
+
+          //  Post temp = new Post(i, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", location, user, "hell ya", 5, null);
 
 
             return View(temp);
