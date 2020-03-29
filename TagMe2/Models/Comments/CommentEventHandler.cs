@@ -38,7 +38,7 @@ namespace TagMe2.Models.Comments
             reader.Read();
             int state = Int16.Parse(reader["action"].ToString());
 
-
+            Guid ID = Guid.Parse(reader["UUID"].ToString());
             Guid parent_ID = Guid.Parse(reader["parent_UUID"].ToString());
             Guid post_ID = Guid.Parse(reader["post_ID"].ToString());
             string text = reader["text"].ToString();
@@ -48,26 +48,21 @@ namespace TagMe2.Models.Comments
 
             if (state == 1)
             {
-                AddComment();
-            }
-            else if (state == 2)
-            {
-                DeleteComment();
-            }
-            else if (state == 3)
-            {
-                EditComment();
+                Comment myComment = new Comment(ID, parent_ID, post_ID, text, new User(), EventSourcingManager.SearchChildComments(ID));
+
+                //  should pass comment to front-end in order to dispaly on the site
+                //
+                //
+
+                // AddCommentToFrontEnd();
             }
 
 
         }
    
         }
-        public static void AddComment(Comment comment)
-        {
-         
-        }
 
+    /*
         public static void DeleteComment(Comment comment)
         {
   
@@ -76,6 +71,6 @@ namespace TagMe2.Models.Comments
         public static void EditComment(Comment comment)
         {
 
-        }
+        }*/
     }
-}
+
