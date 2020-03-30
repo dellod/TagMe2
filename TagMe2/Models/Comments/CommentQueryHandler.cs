@@ -39,7 +39,7 @@ namespace TagMe2.Models.Comments
                 Post_ID = Guid.Parse(reader["post_ID"].ToString());
                 Text = reader["text"].ToString();
                 User_ID = Guid.Parse(reader["author"].ToString());
-                Comment myComment = new Comment(ID, Parent_ID, Post_ID, Text, new User());
+                Comment myComment = new Comment(ID, Parent_ID, Post_ID, Text, new User(),EventSourcingManager.SearchChildComments(id));
 
  
     

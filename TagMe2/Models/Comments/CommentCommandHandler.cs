@@ -14,20 +14,22 @@ namespace TagMe2.Models.Comments
     {
         static void execute(Comment comment)
         {
-            Commands command = comment.Command;
-            switch(command)
-            {
-                case Commands.AddNewComment:
-                    AddNewComment(comment);
-                    break;
-                case Commands.DeleteComment:
-                    DeleteComment(comment);
-                    break;
-                case Commands.EditComment:
-                    EditComment(comment);
-                    break;
-                    
-            }
+            /* Commands command = comment.Command;
+             switch(command)
+             {
+                 case Commands.AddNewComment:
+                     AddNewComment(comment);
+                     break;
+                 case Commands.DeleteComment:
+                     DeleteComment(comment);
+                     break;
+                 case Commands.EditComment:
+                     EditComment(comment);
+                     break;
+
+             }*/
+
+           // AddNewComment(comment); 
         }
         static void AddNewComment(Comment comment)
         {
@@ -37,7 +39,7 @@ namespace TagMe2.Models.Comments
             SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
             command.ExecuteNonQuery();
         }
-
+        /*
         static void DeleteComment(Comment comment)
         {
             string temp = "INSERT INTO CommentEvent VALUES({0},{1},{2},{3},{4},{5});";
@@ -55,5 +57,6 @@ namespace TagMe2.Models.Comments
             SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
             command.ExecuteNonQuery();
         }
+        */
     }
 }

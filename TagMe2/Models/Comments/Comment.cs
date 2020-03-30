@@ -47,6 +47,10 @@ namespace TagMe2.Models.Comments
             get;set;
         }
 
+        public LinkedList<Comment> ChildComments
+        {
+            get; set;
+        }
         /// <summary>
         /// Indicates if the comment is nested or not.
         /// </summary>
@@ -85,13 +89,14 @@ namespace TagMe2.Models.Comments
         /// <param name="parentId"></param>
         /// <param name="text"></param>
         /// <param name="author"></param>
-        public Comment(Guid id, Guid parentId, Guid postId, string text, User author)
+        public Comment(Guid id, Guid parentId, Guid postId, string text, User author,LinkedList<Comment> childComment)
         {
             ID = id;
             Parent_ID = parentId;
             Post_ID = postId;
             Text = text;
             Author = author;
+            ChildComments = childComment;
 
             // Initially put in this state but can be changed later on if needed.
             IsNestedComment = false;
@@ -102,7 +107,7 @@ namespace TagMe2.Models.Comments
         /// Copy Constructor.
         /// </summary>
         /// <param name="instance"></param>
-        public Comment(Comment instance) : this(instance.ID, instance.Parent_ID, instance.Post_ID, instance.Text, instance.Author)
+        public Comment(Comment instance) : this(instance.ID, instance.Parent_ID, instance.Post_ID, instance.Text, instance.Author, instance.ChildComments)
         {
 
         }
