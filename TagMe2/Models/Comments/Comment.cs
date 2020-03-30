@@ -36,6 +36,16 @@ namespace TagMe2.Models.Comments
         {
             get; set;
         }
+        /*
+         *this will cary the child comments.
+         * first level comments will have their ID as postID
+         * another query that would take that comment id and look again in the table for the parent id
+         */
+
+        public List<Comment> childComments 
+        {
+            get;set;
+        }
 
         /// <summary>
         /// Indicates if the comment is nested or not.

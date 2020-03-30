@@ -61,21 +61,22 @@ namespace TagMe2.Models.Comments
 
 
         }
-   
-        }
-        public static void AddComment(Comment comment)
-        {
-         
-        }
 
-        public static void DeleteComment(Comment comment)
+        private static void EditComment()
         {
-  
+            throw new NotImplementedException();
         }
 
-        public static void EditComment(Comment comment)
+        private static void DeleteComment()
         {
+            throw new NotImplementedException();
+        }
 
+        private static void AddComment()
+        {
+            throw new NotImplementedException();
         }
     }
-}
+       
+    }
+

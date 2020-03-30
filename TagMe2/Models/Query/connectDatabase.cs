@@ -16,7 +16,7 @@ namespace TagMe2.Models.Query
 
         public static void connectToDatabase()
         {
-            string connectionString = "Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!";
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=DatabaseTagMe2;Trusted_Connection=True;MultipleActiveResultSets=true";
 
             SqlConnection myConnection = new SqlConnection(connectionString);
          

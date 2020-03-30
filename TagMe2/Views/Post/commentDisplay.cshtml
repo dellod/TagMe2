@@ -5,7 +5,7 @@
 
 @using TagMe2.Models
 
-@model Post
+@model TagMe2.Models.PostComment
 
 @{
     ViewData["Title"] = "Home Page";
@@ -31,12 +31,15 @@
 
     /* Add a card effect for articles */
     .card {
-        background-color: white;
+        background-color: #e8e8e8;
         padding: 20px;
         margin-top: 20px;
-        width: 60%;
+        width: 70%;
         position:center;
     }
+   
+
+    
 
     /* Clear floats after the columns */
     .row:after {
@@ -75,13 +78,58 @@
     }
         */
 
-    div.ex1{
-         background-color: white;
-        padding: 20px;
-        margin-top: 20px;
-        width: 60%;
-        position:center;
-        overflow: auto;
+
+    ul, li{
+        list-style: none;
+
+    }
+
+    ul.simple-nested li{
+        margin-left: 3em; 
+
+    }
+    
+    em{
+        font-size: 1em;
+    }
+
+     .commentcard {
+        background-color:#ffffff;
+        border: 1px solid #999;
+        padding: 1em;
+        margin-bottom: 1em;
+       
+      
+    }
+     
+    ul.simple-nested li ul{
+        border-left: 1px solid #999;
+        position: relative;
+
+
+
+    }
+    
+    ul.simple-nested li ul::before{
+        content:'';
+        border-bottom: 1px solid #999;
+        position: absolute;
+        width:2em;
+        top: 2em;
+        align-content:flex-end;
+    }
+        
+
+    span.nested-branch{
+        border-bottom: 1px solid #999;
+        position: absolute;
+        width:1em;
+        
+    }
+
+    commentbox{
+        margin-bottom:1em;
+        
     }
 </style>
 
@@ -92,31 +140,47 @@
 
 
 
-<div class="card" >
+<div class="card">
 
     <h2>
         <a href="/profile">
-            <img class="profile" src=@Model.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
+            <img class="profile" src=@Model.thePost.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
         </a>
-        @Model.PostAuthor.FirstName @Model.PostAuthor.LastName
+        @Model.thePost.PostAuthor.FirstName @Model.thePost.PostAuthor.LastName
     </h2>
     <p>
         <a href="/map">
             <span class="glyphicon glyphicon-map-marker"></span>
         </a>
-        @Model.Location.City, @Model.Location.Country
+        @Model.thePost.Location.City, @Model.thePost.Location.Country
     </p>
     <p>
-        <img class="fakeimg" src=@Model.URL style="height:200px;">
+        <img class="fakeimg" src=@Model.thePost.URL style="height:200px;">
     </p>
     <p>
         <a href="/like">
             <span class="glyphicon glyphicon-star-empty"></span>
         </a>
-        @Model.Likes
+        @Model.thePost.Likes
     </p>
-    <p> @Model.Caption</p>
+    <p> @Model.thePost.Caption</p>
+    
+   
+        <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#reply_post">Comment</a></p>
+        <div id="reply_post" class="collapse">
 
+            @using (Html.BeginForm("CommentOnPost", "comment", new { caption = Model.thePost.Caption })) {
+            <form>
+
+                @Html.TextArea("theReply", null, new { @class = "form-control" })
+                <input type="submit" value="Comment" style="margin-top:1em">
+
+            </form>
+                }
+
+
+        </div>
+   
 </div>
 
 
@@ -124,60 +188,44 @@
 
 <div class="card" style="overflow-y:auto; height:500px;">
 
-    <ul>
-        <div class="card">
-            <div class="entry-content">
-                <p>what is this devilery shit</p>
+    <ul class="simple-nested">
+        <li>
+            <div class="commentcard">
+                <p>author name if you want</p>
+                <p>what is this devileasdfadsfry shit</p>
+                <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#reply_comment">Reply</a></p>
+                <div id="reply_comment" class="collapse">
+                  <!--  <textarea style="margin-bottom: 1em;" class="commentbox" rows="4" cols="50" name="comment" form="usrform" placeholder="reply to the comment"></textarea>
+                  
+                      -->
+                    <form action="/action_page.php" id="usrform">
+                        @Html.TextArea("theReply", null, new { @class = "form-control" })
+                        <input type="submit" value="Reply" style="margin-top:1em">
+                    </form>
+                </div>
+                
             </div>
-        </div>
+
+            <ul>
+                
+                <li>
+                    <div class="commentcard">
+                        <p>author name if you want</p>
+                        <p>second level nested stuff</p>
+                        
+                    </div>
+
+                </li>
+
+
+            </ul>
+
+        </li>
+
+
     </ul>
 
-    <ul>
-        <div class="card">
-            <div class="entry-content">
-                <p>what is this devilery shit</p>
-            </div>
-        </div>
-    </ul>
-
-    <ul>
-        <div class="card">
-            <div class="entry-content">
-                <p>what is this devilery shit</p>
-            </div>
-        </div>
-    </ul>
-    <ul>
-        <div class="card">
-            <div class="entry-content">
-                <p>what is this devilery shit</p>
-            </div>
-        </div>
-    </ul>
-
-    <ul>
-        <div class="card">
-            <div class="entry-content">
-                <p>what is this devilery shit</p>
-            </div>
-        </div>
-    </ul>
-
-    <ul>
-        <div class="card">
-            <div class="entry-content">
-                <p>what is this devilery shit</p>
-            </div>
-        </div>
-    </ul>
-
-    <ul>
-        <div class="card">
-            <div class="entry-content">
-                <p>what is this devilery shit</p>
-            </div>
-        </div>
-    </ul>
+ 
 
 
 </div>

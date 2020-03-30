@@ -14,6 +14,9 @@ namespace TagMe2.Controllers
 
     public class HomeController : Controller
     {
+
+        public static SqlConnection connection = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database=DatabaseTagMe2;Trusted_Connection=True;MultipleActiveResultSets=true");
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -24,9 +27,9 @@ namespace TagMe2.Controllers
         public IActionResult Index()
 
         {
-                SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
 
 
+           
             connection.Open();
             string commandText = "SELECT * FROM Post";
             SqlCommand cmd = new SqlCommand(commandText, connection);

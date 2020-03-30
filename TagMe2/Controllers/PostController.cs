@@ -13,7 +13,7 @@ namespace TagMe2.Controllers
 {
     public class PostController : Controller
     {
-        public static SqlConnection connection = new SqlConnection("Data Source=tagme.database.windows.net;Initial Catalog=tagme;Persist Security Info=True;User ID=tagme;Password=password401!");
+        public static SqlConnection connection = new SqlConnection("Server = (localdb)\\mssqllocaldb; Database=DatabaseTagMe2;Trusted_Connection=True;MultipleActiveResultSets=true");
         [HttpGet]
         public IActionResult Add()
         {
@@ -50,7 +50,12 @@ namespace TagMe2.Controllers
             return View();
 
         }
-
+        /// <summary>
+        /// this might have to be moved into the commentController
+        /// Key points: this function will recieve object of post or at least the 
+        /// ID of the post, will return model of the post and comments; refer to PostComment.cs model
+        /// </summary>
+        /// <returns></returns>
         public IActionResult commentDisplay()
         {
             Guid i = Guid.NewGuid();
@@ -58,8 +63,8 @@ namespace TagMe2.Controllers
             User user = new User(i, "yossri", "yossri", "khalil", prof);
             Address location = new Address("calgary","canada","AB",1.0,1.0);
             connection.Open();
-            SqlCommand command = new SqlCommand("Select imageblob from Post where text=@zip", connection);
-            command.Parameters.AddWithValue("@zip", "italy1");
+            SqlCommand command = new SqlCommand("Select imageblob from Post", connection);
+            //command.Parameters.AddWithValue("@zip", "italy1");
 
             //SqlDataReader reader = command.ExecuteReader();
             byte[] bytes = (byte[])command.ExecuteScalar();
@@ -71,10 +76,19 @@ namespace TagMe2.Controllers
 
             Post temp = new Post(i, url, location, user, "hell ya", 5, null);
 
-          //  Post temp = new Post(i, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", location, user, "hell ya", 5, null);
+            //  Post temp = new Post(i, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", location, user, "hell ya", 5, null);
+
+            PostComment postWithComment = new PostComment();
+            postWithComment.thePost = (temp);
 
 
-            return View(temp);
+
+
+
+
+
+            connection.Close();
+            return View(postWithComment);
         }
 
         [HttpGet]
