@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using TagMe2.Models;
+using TagMe2.Models.Query;
 
 namespace TagMe2
 {
@@ -14,7 +14,7 @@ namespace TagMe2
     {
         public static void Main(string[] args)
         {
-
+            connectDatabase.connectToDatabase();
             CreateHostBuilder(args).Build().Run();
         }
 

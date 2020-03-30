@@ -42,11 +42,6 @@ namespace TagMe2.Models.Comments
          * another query that would take that comment id and look again in the table for the parent id
          */
 
-        public List<Comment> childComments 
-        {
-            get;set;
-        }
-
         public LinkedList<Comment> ChildComments
         {
             get; set;

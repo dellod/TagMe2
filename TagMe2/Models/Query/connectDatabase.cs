@@ -19,7 +19,7 @@ namespace TagMe2.Models.Query
             string connectionString = "Server=(localdb)\\mssqllocaldb;Database=DatabaseTagMe2;Trusted_Connection=True;MultipleActiveResultSets=true";
 
             SqlConnection myConnection = new SqlConnection(connectionString);
-         
+            
                 try
                 {
                     myConnection.Open();

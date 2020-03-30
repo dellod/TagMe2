@@ -34,6 +34,9 @@ namespace TagMe2.Models.Comments
         static void AddNewComment(Comment comment)
         {
             string temp = "INSERT INTO CommentEvent VALUES({0},{1},{2},{3},{4},{5});";
+            //parentID: can be a post ID if you are replying directly to post,
+            //        : can be the parent comment id, if you are replying to another comment
+            // comment author will be null for now I guess
             string queryString = string.Format(temp, comment.ID, comment.Parent_ID, comment.Text, comment.Author, 1);
 
             SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);

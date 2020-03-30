@@ -94,7 +94,9 @@
         </p>
     -->
         <p>
-            <img class="fakeimg" src=@post.URL style="height:200px;">
+            <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
+
+            <img  class="fakeimg" src=@post.URL style="height:200px;">
         </p>
         <p>
             <a href="/like">

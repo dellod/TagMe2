@@ -99,7 +99,7 @@ namespace TagMe2.Models
         }
         #endregion
 
-
+        #region Methods
         public void addToDb(SqlConnection connection)
         {
             Guid postId = Guid.NewGuid();
@@ -146,7 +146,7 @@ namespace TagMe2.Models
             connection.Close();
         }
 
-        #region Methods
+        
         /// <summary>
         /// Adds a new tag to the Tag list, but there can only be 5 tags for each post.
         /// </summary>
@@ -179,6 +179,7 @@ namespace TagMe2.Models
         {
             Caption = newCaption + "\n(Edited)";
         }
+        
 
         /// <summary>
         /// Removes specified tag and returns the tag that was removed.

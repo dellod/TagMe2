@@ -16,7 +16,7 @@ namespace TagMe2.Models
     {
         public Post thePost { get; set; }
         
-        public List<Comment> theComments { get; set; }
+        public LinkedList<Comment> theComments { get; set; }
 
         public string theReply { get; set; }
     }

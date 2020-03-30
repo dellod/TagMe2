@@ -23,6 +23,7 @@ namespace TagMe2.Controllers
         {
 
             //Console.WriteLine(caption);
+            // call commentcommandhandler, pass the comment as a model, and will get it sorted. 
 
 
             return p.theReply;

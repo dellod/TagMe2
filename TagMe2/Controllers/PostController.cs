@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TagMe2.Models;
+using TagMe2.Models.Comments;
 
 namespace TagMe2.Controllers
 {
@@ -26,27 +27,7 @@ namespace TagMe2.Controllers
         {
 
             Image.addToDb(connection);
-            /* connection.Open();
-             string commandText = "Insert into Post (UUID,text, imagetype, imageblob) VALUES(@Id,@cap,@imageType, @imageblob)";
-             SqlCommand cmd = new SqlCommand(commandText, connection);
-
-             // adding the 'converting to blob section'
-             string imageName = Path.GetFileNameWithoutExtension(Image.ImageFile.FileName);
-             string imageType = Image.ImageFile.ContentType;
-             Stream sm = Image.ImageFile.OpenReadStream();
-             BinaryReader br = new BinaryReader(sm);
-             byte[] bytes = br.ReadBytes((Int32)sm.Length);
-
-
-
-             cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
-             cmd.Parameters.AddWithValue("@cap", Image.Caption);
-             cmd.Parameters.AddWithValue("@imageType", imageType);
-             cmd.Parameters.AddWithValue("@imageblob", bytes);
-
-             cmd.ExecuteNonQuery();
-             connection.Close();
- */
+           
             return View();
 
         }
@@ -56,8 +37,16 @@ namespace TagMe2.Controllers
         /// ID of the post, will return model of the post and comments; refer to PostComment.cs model
         /// </summary>
         /// <returns></returns>
-        public IActionResult commentDisplay()
+        public IActionResult commentDisplay(Guid ID)
         {
+            // click on image, get post id over here,
+            // call event sourcinng manager to get list of comments
+            // also one query to get me one post to that id,
+
+            // just create a new PostComment model and pass to view
+
+            
+
             Guid i = Guid.NewGuid();
             Profile prof = new Profile(null, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", null);
             User user = new User(i, "yossri", "yossri", "khalil", prof);
@@ -78,7 +67,12 @@ namespace TagMe2.Controllers
 
             //  Post temp = new Post(i, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", location, user, "hell ya", 5, null);
 
+          
+           
+            
+
             PostComment postWithComment = new PostComment();
+            postWithComment.theComments = EventSourcingManager.retrieveCommentsFromPost(ID);
             postWithComment.thePost = (temp);
 
 

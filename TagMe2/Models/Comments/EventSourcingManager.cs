@@ -16,6 +16,9 @@ namespace TagMe2.Models.Comments
         /// <param name="postID"></param>
         public static LinkedList<Comment> retrieveCommentsFromPost(Guid postID)
         {
+            
+            // returns list of comments: parent comments or first level comments
+
             LinkedList<Comment> commentList = new LinkedList<Comment>();
             // TODO need to query based on post ID, then after query by order
             //          ORDER will be oldest to newest, so the first comment will be directly attached to the post, and the newest posts will follow afterwards.
@@ -57,6 +60,8 @@ namespace TagMe2.Models.Comments
 
         public static LinkedList<Comment> SearchChildComments(Guid parentID)
         {
+
+            // this returns list of comments, child comments to a parent id
 
             LinkedList<Comment> childComment = new LinkedList<Comment>();
             string temp = "SELECT * " +
