@@ -99,63 +99,7 @@ namespace TagMe2.Models
 
         }
         #endregion
-        /// <summary>
-        /// retrive the post information from database based on the UUID
-        /// </summary>
-        /// <param name="post_ID"></param>
-        /// <returns></returns>
-        public Post searchPost(Guid post_ID)
-        {
-            
-                
-
-                string temp = "SELECT * " +
-                              "FROM Post" +
-                              "WHERE UUID = {0} ;";
-
-                string queryString = string.Format(temp, post_ID.ToString());
-
-                SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
-                SqlDataReader reader = command.ExecuteReader();
-
-                Guid ID;
-                int likes;
-                string text;
-
-                reader.Read();
-
-                //retrive data from table post
-                byte[] bytes = (byte[])reader["imageblob"];
-                string strBase64 = Convert.ToBase64String(bytes);
-                string url = "data:Image/png;base64," + strBase64;
-
-                ID = Guid.Parse(reader["UUID"].ToString());
-                likes = Int16.Parse(reader["like"].ToString());
-                text = reader["text"].ToString();
-
-                //retrive data from table tag
-                string temp1 = "SELECT * " +
-                          "FROM PostTags" +
-                          "WHERE PostID = {0} ;";
-
-                string queryString1 = string.Format(temp1, post_ID.ToString());
-
-                SqlCommand command1 = new SqlCommand(queryString1, connectDatabase.myConnection);
-                SqlDataReader reader1 = command.ExecuteReader();
-                
-                string tags= reader1["Tag"].ToString();
-
-                Post myPost = new Post(ID, url, null, null, text, likes, tags);
-
-
-
-
-                reader.Close();
-                reader1.Close();
-                return myPost;
-            
-           
-        }
+        
         public void addToDb(SqlConnection connection)
         {
             Guid postId = Guid.NewGuid();
@@ -202,6 +146,63 @@ namespace TagMe2.Models
         }
 
         #region Methods
+        /// <summary>
+        /// retrive the post information from database based on the UUID
+        /// </summary>
+        /// <param name="post_ID"></param>
+        /// <returns></returns>
+        public Post searchPost(Guid post_ID)
+        {
+
+
+
+            string temp = "SELECT * " +
+                          "FROM Post" +
+                          "WHERE UUID = {0} ;";
+
+            string queryString = string.Format(temp, post_ID.ToString());
+
+            SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
+            SqlDataReader reader = command.ExecuteReader();
+
+            Guid ID;
+            int likes;
+            string text;
+
+            reader.Read();
+
+            //retrive data from table post
+            byte[] bytes = (byte[])reader["imageblob"];
+            string strBase64 = Convert.ToBase64String(bytes);
+            string url = "data:Image/png;base64," + strBase64;
+
+            ID = Guid.Parse(reader["UUID"].ToString());
+            likes = Int16.Parse(reader["like"].ToString());
+            text = reader["text"].ToString();
+
+            //retrive data from table tag
+            string temp1 = "SELECT * " +
+                      "FROM PostTags" +
+                      "WHERE PostID = {0} ;";
+
+            string queryString1 = string.Format(temp1, post_ID.ToString());
+
+            SqlCommand command1 = new SqlCommand(queryString1, connectDatabase.myConnection);
+            SqlDataReader reader1 = command.ExecuteReader();
+
+            string tags = reader1["Tag"].ToString();
+
+            Post myPost = new Post(ID, url, null, null, text, likes, tags);
+
+
+
+
+            reader.Close();
+            reader1.Close();
+            return myPost;
+
+
+        }
         /// <summary>
         /// Adds a new tag to the Tag list, but there can only be 5 tags for each post.
         /// </summary>
