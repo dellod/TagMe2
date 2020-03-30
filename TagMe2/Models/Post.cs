@@ -135,15 +135,15 @@ namespace TagMe2.Models
 
                 //retrive data from table tag
                 string temp1 = "SELECT * " +
-                          "FROM Tag" +
-                          "WHERE PostUUID = {0} ;";
+                          "FROM PostTags" +
+                          "WHERE PostID = {0} ;";
 
                 string queryString1 = string.Format(temp1, post_ID.ToString());
 
                 SqlCommand command1 = new SqlCommand(queryString1, connectDatabase.myConnection);
                 SqlDataReader reader1 = command.ExecuteReader();
                 
-                string tags= reader1["tag"].ToString();
+                string tags= reader1["Tag"].ToString();
 
                 Post myPost = new Post(ID, url, null, null, text, likes, tags);
 
