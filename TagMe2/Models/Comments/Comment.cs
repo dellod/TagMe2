@@ -84,6 +84,7 @@ namespace TagMe2.Models.Comments
         /// <param name="parentId"></param>
         /// <param name="text"></param>
         /// <param name="author"></param>
+        // TODO: cant construct with child comments??, refer back to commentcontroller.cs line 26: child is null
         public Comment(Guid id, Guid parentId, Guid postId, string text, User author,LinkedList<Comment> childComment)
         {
             ID = id;

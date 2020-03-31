@@ -151,18 +151,22 @@ namespace TagMe2.Models
         /// </summary>
         /// <param name="post_ID"></param>
         /// <returns></returns>
-        public Post searchPost(Guid post_ID)
+        public static Post searchOnePost(Guid post_ID)
         {
 
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=DatabaseTagMe2;Trusted_Connection=True;MultipleActiveResultSets=true";
 
+            SqlConnection myConnection = new SqlConnection(connectionString);
+            myConnection.Open();
 
-            string temp = "SELECT * " +
-                          "FROM Post" +
-                          "WHERE UUID = {0} ;";
+            string temp = "SELECT * FROM Post WHERE UUID = @post_ID";
 
-            string queryString = string.Format(temp, post_ID.ToString());
+            //string queryString = string.Format(temp, post_ID.ToString());
 
-            SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
+//            SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
+            SqlCommand command = new SqlCommand(temp, myConnection);
+           
+            command.Parameters.AddWithValue("@post_ID", post_ID);
             SqlDataReader reader = command.ExecuteReader();
 
             Guid ID;
@@ -177,30 +181,32 @@ namespace TagMe2.Models
             string url = "data:Image/png;base64," + strBase64;
 
             ID = Guid.Parse(reader["UUID"].ToString());
-            likes = Int16.Parse(reader["like"].ToString());
+            likes = 1;//Int32.Parse(reader["like"].ToString());
             text = reader["text"].ToString();
 
             //retrive data from table tag
-            string temp1 = "SELECT * " +
-                      "FROM PostTags" +
-                      "WHERE PostID = {0} ;";
+            /*
+           string temp1 = "SELECT * FROM PostTags WHERE PostID =@post_ID";
 
-            string queryString1 = string.Format(temp1, post_ID.ToString());
+            //string queryString1 = string.Format(temp1, post_ID.ToString());
+            SqlCommand command1 = new SqlCommand(temp1, myConnection);
+            command1.Parameters.AddWithValue("@post_ID", post_ID);
 
-            SqlCommand command1 = new SqlCommand(queryString1, connectDatabase.myConnection);
-            SqlDataReader reader1 = command.ExecuteReader();
+            SqlDataReader reader1 = command1.ExecuteReader();
 
             string tags = reader1["Tag"].ToString();
-
-            Post myPost = new Post(ID, url, null, null, text, likes, tags);
+            */
+            // TODO: I guess we dont need tags to be saved within the post
+            Post myPost = new Post(ID, url, null, null, text, likes, null);
 
 
 
 
             reader.Close();
-            reader1.Close();
+            //reader1.Close();
+            myConnection.Close();
             return myPost;
-
+            
 
         }
         /// <summary>

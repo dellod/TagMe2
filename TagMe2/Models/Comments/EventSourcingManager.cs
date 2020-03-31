@@ -16,36 +16,40 @@ namespace TagMe2.Models.Comments
         /// <param name="postID"></param>
         public static LinkedList<Comment> retrieveCommentsFromPost(Guid postID)
         {
-            
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=DatabaseTagMe2;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            SqlConnection myConnection = new SqlConnection(connectionString);
+            myConnection.Open();
+
             // returns list of comments: parent comments or first level comments
 
             LinkedList<Comment> commentList = new LinkedList<Comment>();
             // TODO need to query based on post ID, then after query by order
             //          ORDER will be oldest to newest, so the first comment will be directly attached to the post, and the newest posts will follow afterwards.
 
-            string temp = "SELECT * " +
-                          "FROM CommentEvent" +
-                          "WHERE post_ID = {0} ;";
-            string queryString = string.Format(temp,postID);
+            string temp = "SELECT * FROM CommentEvent WHERE post_ID = @ID";
+           // string queryString = string.Format(temp,postID);
 
-            SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
+            // SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
+             SqlCommand command = new SqlCommand(temp, myConnection);
+            command.Parameters.AddWithValue("@ID", postID);
+
             SqlDataReader reader = command.ExecuteReader();
-
             Guid ID;
             Guid Parent_ID;
             Guid Post_ID;
             string Text;
-            Guid User_ID;
+            string User_ID;
 
 
 
             while (reader.Read())
             {
-               ID = Guid.Parse(reader["UUID"].ToString());
-               Parent_ID = Guid.Parse(reader["parent_UUID"].ToString());
+               ID = Guid.Parse(reader["ID"].ToString());
+               Parent_ID = Guid.Parse(reader["parent_ID"].ToString());
                Post_ID = Guid.Parse(reader["post_ID"].ToString());
                Text = reader["text"].ToString();
-               User_ID = Guid.Parse(reader["author"].ToString());
+                User_ID = reader["author"].ToString();
                Comment myComment= new Comment(ID, Parent_ID, Post_ID, Text,new User(),SearchChildComments(ID));
 
                commentList.AddLast(myComment);
@@ -55,38 +59,41 @@ namespace TagMe2.Models.Comments
             // FIrst query the comment with parent_id that matches the post_id
             // then query the next comment that has parent_id that matches the last comment
             // keep going
+            myConnection.Close();
             return commentList;
         }
 
         public static LinkedList<Comment> SearchChildComments(Guid parentID)
         {
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=DatabaseTagMe2;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            SqlConnection myConnection = new SqlConnection(connectionString);
+            myConnection.Open();
 
             // this returns list of comments, child comments to a parent id
 
             LinkedList<Comment> childComment = new LinkedList<Comment>();
-            string temp = "SELECT * " +
-                          "FROM CommentEvent" +
-                          "WHERE parent_UUID = {0} ;";
-            string queryString = string.Format(temp, parentID);
+            string temp = "SELECT * FROM CommentEvent WHERE parent_ID = @ID";
+            //string queryString = string.Format(temp, parentID);
 
-            SqlCommand command = new SqlCommand(queryString, connectDatabase.myConnection);
+            SqlCommand command = new SqlCommand(temp, myConnection);
+            command.Parameters.AddWithValue("@ID", parentID);
             SqlDataReader reader = command.ExecuteReader();
-
             Guid ID;
             Guid Parent_ID;
             Guid Post_ID;
             string Text;
-            Guid User_ID;
+            string User_ID;
 
 
 
             while (reader.Read())
             {
-                ID = Guid.Parse(reader["UUID"].ToString());
-                Parent_ID = Guid.Parse(reader["parent_UUID"].ToString());
+                ID = Guid.Parse(reader["ID"].ToString());
+                Parent_ID = Guid.Parse(reader["parent_ID"].ToString());
                 Post_ID = Guid.Parse(reader["post_ID"].ToString());
                 Text = reader["text"].ToString();
-                User_ID = Guid.Parse(reader["author"].ToString());
+                User_ID = reader["author"].ToString();
                 Comment myComment = new Comment(ID, Parent_ID, Post_ID, Text, new User(),SearchChildComments(ID));
 
                 childComment.AddLast(myComment);
@@ -96,6 +103,9 @@ namespace TagMe2.Models.Comments
             // FIrst query the comment with parent_id that matches the post_id
             // then query the next comment that has parent_id that matches the last comment
             // keep going
+
+            myConnection.Close();
+
             return childComment;
 
 

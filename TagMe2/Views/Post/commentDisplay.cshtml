@@ -142,18 +142,20 @@
 
 <div class="card">
 
-    <h2>
+    <!-- <h2>
         <a href="/profile">
-            <img class="profile" src=@Model.thePost.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
+            <img class="profile" src=Model.thePost.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
         </a>
-        @Model.thePost.PostAuthor.FirstName @Model.thePost.PostAuthor.LastName
+        Model.thePost.PostAuthor.FirstName Model.thePost.PostAuthor.LastName
     </h2>
     <p>
         <a href="/map">
             <span class="glyphicon glyphicon-map-marker"></span>
         </a>
-        @Model.thePost.Location.City, @Model.thePost.Location.Country
+        Model.thePost.Location.City, Model.thePost.Location.Country
     </p>
+        -->
+    
     <p>
         <img class="fakeimg" src=@Model.thePost.URL style="height:200px;">
     </p>
@@ -164,68 +166,78 @@
         @Model.thePost.Likes
     </p>
     <p> @Model.thePost.Caption</p>
-    
-   
-        <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#reply_post">Comment</a></p>
-        <div id="reply_post" class="collapse">
 
-            @using (Html.BeginForm("CommentOnPost", "comment", new { caption = Model.thePost.Caption })) {
+
+    <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#reply_post">Comment</a></p>
+    <div id="reply_post" class="collapse">
+
+        @using (Html.BeginForm("CommentOnPost", "comment", new { postID = Model.thePost.ID, parentID=Model.thePost.ID }))
+        {
             <form>
 
                 @Html.TextArea("theReply", null, new { @class = "form-control" })
                 <input type="submit" value="Comment" style="margin-top:1em">
 
             </form>
-                }
+        }
 
 
-        </div>
-   
+    </div>
+
 </div>
 
 
 
 
 <div class="card" style="overflow-y:auto; height:500px;">
-
+    @foreach (var comment in Model.theComments)
+    {
     <ul class="simple-nested">
         <li>
             <div class="commentcard">
                 <p>author name if you want</p>
-                <p>what is this devileasdfadsfry shit</p>
-                <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#reply_comment">Reply</a></p>
-                <div id="reply_comment" class="collapse">
-                  <!--  <textarea style="margin-bottom: 1em;" class="commentbox" rows="4" cols="50" name="comment" form="usrform" placeholder="reply to the comment"></textarea>
-                  
-                      -->
-                    <form action="/action_page.php" id="usrform">
-                        @Html.TextArea("theReply", null, new { @class = "form-control" })
-                        <input type="submit" value="Reply" style="margin-top:1em">
-                    </form>
-                </div>
-                
-            </div>
+                <p>@comment.Text</p>
+                <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#@comment.ID">Reply</a></p>
+                <div id="@comment.ID" class="collapse">
+                    <!--  <textarea style="margin-bottom: 1em;" class="commentbox" rows="4" cols="50" name="comment" form="usrform" placeholder="reply to the comment"></textarea>
 
+        -->
+                    @using (Html.BeginForm("CommentOnPost", "comment", new { postID = Model.thePost.ID, parentID = comment.ID }))
+                    {
+                        <form>
+
+                            @Html.TextArea("theReply", null, new { @class = "form-control" })
+                            <input type="submit" value="Comment" style="margin-top:1em">
+
+                        </form>
+                    }
+                </div>
+
+            </div>
+            @foreach (var commentChild in comment.ChildComments)
+            {
             <ul>
-                
+
                 <li>
                     <div class="commentcard">
                         <p>author name if you want</p>
-                        <p>second level nested stuff</p>
-                        
+                        <p>@commentChild.Text</p>
+
                     </div>
 
                 </li>
 
 
             </ul>
+            }
 
         </li>
 
 
     </ul>
+    }
 
- 
+
 
 
 </div>
