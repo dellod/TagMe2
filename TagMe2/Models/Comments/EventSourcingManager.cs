@@ -41,8 +41,6 @@ namespace TagMe2.Models.Comments
             string Text;
             string User_ID;
 
-
-
             while (reader.Read())
             {
                ID = Guid.Parse(reader["ID"].ToString());
@@ -56,9 +54,6 @@ namespace TagMe2.Models.Comments
             }
 
             reader.Close();
-            // FIrst query the comment with parent_id that matches the post_id
-            // then query the next comment that has parent_id that matches the last comment
-            // keep going
             myConnection.Close();
             return commentList;
         }
@@ -86,7 +81,6 @@ namespace TagMe2.Models.Comments
             string User_ID;
 
 
-
             while (reader.Read())
             {
                 ID = Guid.Parse(reader["ID"].ToString());
@@ -100,10 +94,6 @@ namespace TagMe2.Models.Comments
             }
 
             reader.Close();
-            // FIrst query the comment with parent_id that matches the post_id
-            // then query the next comment that has parent_id that matches the last comment
-            // keep going
-
             myConnection.Close();
 
             return childComment;
