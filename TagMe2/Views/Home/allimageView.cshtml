@@ -6,6 +6,43 @@
     ViewData["Title"] = "Home Page";
 }
 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    var scrollPosition = 0;
+
+    $(document).ready(function () {
+
+        $(window).scroll(function (event) {
+            scrollPosition = $(window).scrollTop();
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    // It is important to place this JavaScript code after ScriptManager1
+    var xPos, yPos;
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+    function BeginRequestHandler(sender, args) {
+        console.log('BeginRequest');
+    }
+
+    function EndRequestHandler(sender, args) {
+        $(window).scrollTop(scrollPosition);
+    }
+
+    prm.add_beginRequest(BeginRequestHandler);
+    prm.add_endRequest(EndRequestHandler);
+
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -20,16 +57,24 @@
 
     /* Fake image */
     .fakeimg {
-        width: 90%;
+        width: 70%;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
         padding: 10px;
+        height: 500px;
+        border: 0.5px solid #fceeee;
+        border-radius: 8px;
     }
 
     /* Add a card effect for articles */
     .card {
+        border-radius: 8px;
         background-color: white;
         padding: 20px;
         margin-top: 20px;
-        width: 60%;
+        width: 70%;
+        height: auto;
         position: center;
     }
 
@@ -40,11 +85,7 @@
         clear: both;
     }
 
-    div > img {
-        position: absolute;
-        width: 100%;
-        height: auto;
-        border: 1px solid red;
+    .img {
     }
 
     h2 {
@@ -56,6 +97,26 @@
         height: 25px;
         //padding-top: 7px;
         border: 1px solid blue;
+    }
+
+    .search-container input[type=text] {
+        float: right;
+        padding: 6px;
+        border: 1px solid medium;
+        margin-top: 8px;
+        margin-right: 16px;
+        font-size: 17px;
+    }
+
+    .search-container button {
+        float: right;
+        padding: 6px;
+        margin-top: 8px;
+        margin-right: 16px;
+        background: #ddd;
+        font-size: 17px;
+        border: none;
+        cursor: pointer;
     }
 
     /*
@@ -71,46 +132,48 @@
         */
 </style>
 
+<!DOCTYPE html>
+<html lang="en">
+<body>
 
 
+    @foreach (var post in Model)
+    {
 
+        <div class="card">
 
-@foreach (var post in Model)
-{
+            <!-- <h2>
+                    <a href="/profile">
+                        <img class="profile" src=post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
+                    </a>
+                    post.PostAuthor.FirstName post.PostAuthor.LastName
+                </h2>
+                <p>
+                    <a href="/map">
+                        <span class="glyphicon glyphicon-map-marker"></span>
+                    </a>
+                    post.Location.City, post.Location.Country
+                </p>
+            -->
+            <p>
+                <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
 
-    <div class="card">
+                    <img class="fakeimg" src=@post.URL style="height:auto;">
+            </p>
+            <p>
+                <a href="/like">
+                    <span class="glyphicon glyphicon-star-empty"></span>
+                </a>
+                @post.Likes
+            </p>
+            <p> @post.Caption</p>
+            <!--
+                <form class="w3-container w3-card-4 w3-light-grey">
+                    <input class="w3-input w3-border w3-round-xxlarge" name="commentBox" type="text" placeholder="comment">
+                </form>
+            -->
+        </div>
+    }
 
-       <!-- <h2>
-            <a href="/profile">
-                <img class="profile" src=post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
-            </a>
-            post.PostAuthor.FirstName post.PostAuthor.LastName
-        </h2>
-        <p>
-            <a href="/map">
-                <span class="glyphicon glyphicon-map-marker"></span>
-            </a>
-            post.Location.City, post.Location.Country
-        </p>
-    -->
-        <p>
-            <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
-
-            <img  class="fakeimg" src=@post.URL style="height:200px;">
-        </p>
-        <p>
-            <a href="/like">
-                <span class="glyphicon glyphicon-star-empty"></span>
-            </a>
-            @post.Likes
-        </p>
-        <p> @post.Caption</p>
-        <!--
-        <form class="w3-container w3-card-4 w3-light-grey">
-            <input class="w3-input w3-border w3-round-xxlarge" name="commentBox" type="text" placeholder="comment">
-        </form>
-    -->
-    </div>
-}
-
-
+</body>
+</html>
