@@ -24,7 +24,7 @@
     }
 
     /* Fake image */
-      .fakeimg {
+    .fakeimg {
         width: 70%;
         height: auto;
         margin-left: auto;
@@ -46,9 +46,9 @@
         position: center;
     }
 
-   
 
-    
+
+
 
     /* Clear floats after the columns */
     .row:after {
@@ -88,169 +88,194 @@
         */
 
 
-    ul, li{
+    ul, li {
         list-style: none;
-
     }
 
-    ul.simple-nested li{
-        margin-left: 3em; 
+        ul.simple-nested li {
+            margin-left: 3em;
+        }
 
-    }
-    
-    em{
+    em {
         font-size: 1em;
     }
 
-     .commentcard {
-        background-color:#ffffff;
+    .commentcard {
+        background-color: #ffffff;
         border: 1px solid #999;
         padding: 1em;
         margin-bottom: 1em;
-       
-      
     }
-     
-    ul.simple-nested li ul{
+
+    ul.simple-nested li ul {
         border-left: 1px solid #999;
         position: relative;
-
-
-
     }
-    
-    ul.simple-nested li ul::before{
-        content:'';
+
+        ul.simple-nested li ul::before {
+            content: '';
+            border-bottom: 1px solid #999;
+            position: absolute;
+            width: 2em;
+            top: 2em;
+            align-content: flex-end;
+        }
+
+
+    span.nested-branch {
         border-bottom: 1px solid #999;
         position: absolute;
-        width:2em;
-        top: 2em;
-        align-content:flex-end;
-    }
-        
-
-    span.nested-branch{
-        border-bottom: 1px solid #999;
-        position: absolute;
-        width:1em;
-        
+        width: 1em;
     }
 
-    commentbox{
-        margin-bottom:1em;
-        
+    commentbox {
+        margin-bottom: 1em;
+    }
+
+    .arrow {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-top: 2px solid #000;
+        border-right: 2px solid #000;
+    }
+
+    .arrow-left {
+        transform: rotate(-135deg);
     }
 </style>
 
+<!--
 
-
-<div>
+<div style="float:left; padding-right: 2em; padding-top:5em;">
     <button onclick="history.back()">
         Back
     </button>
 </div>
+    -->
+<div class="container" style="position:fixed; z-index:+1; width:100%; top:0;">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+        <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TagMe</a>-->
+
+        <li><a href="javascript: history.back();" class="arrow arrow-left"></a></li>
+
+        <p style="align-items:center; margin-left:auto; margin-right:auto; font-size:2em;">TagMe</p>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
 
-
-
-<div class="card">
-
-    <!-- <h2>
-        <a href="/profile">
-            <img class="profile" src=Model.thePost.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
-        </a>
-        Model.thePost.PostAuthor.FirstName Model.thePost.PostAuthor.LastName
-    </h2>
-    <p>
-        <a href="/map">
-            <span class="glyphicon glyphicon-map-marker"></span>
-        </a>
-        Model.thePost.Location.City, Model.thePost.Location.Country
-    </p>
-        -->
-    
-    <p>
-        <img class="fakeimg" src=@Model.thePost.URL style="height:auto;">
-    </p>
-    <p>
-        <a href="/like">
-            <span class="glyphicon glyphicon-star-empty"></span>
-        </a>
-        @Model.thePost.Likes
-    </p>
-    <p> @Model.thePost.Caption</p>
-
-
-    <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#reply_post">Comment</a></p>
-    <div id="reply_post" class="collapse">
-
-        @using (Html.BeginForm("CommentOnPost", "comment", new { postID = Model.thePost.ID, parentID=Model.thePost.ID }))
-        {
-            <form>
-
-                @Html.TextArea("theReply", null, new { @class = "form-control" })
-                <input type="submit" value="Comment" style="margin-top:1em">
-
-            </form>
-        }
-
-
-    </div>
+    </nav>
 
 </div>
 
 
+<div style="
+        padding-left: 15em;
+        padding-top: 5em;
+        margin-left: auto;
+        margin-right: auto;
+">
+    <div class="card">
+
+        <!-- <h2>
+            <a href="/profile">
+                <img class="profile" src=Model.thePost.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
+            </a>
+            Model.thePost.PostAuthor.FirstName Model.thePost.PostAuthor.LastName
+        </h2>
+        <p>
+            <a href="/map">
+                <span class="glyphicon glyphicon-map-marker"></span>
+            </a>
+            Model.thePost.Location.City, Model.thePost.Location.Country
+        </p>
+            -->
+
+        <p>
+            <img class="fakeimg" src=@Model.thePost.URL style="height:auto;">
+        </p>
+        <p>
+            <a href="/like">
+                <span class="glyphicon glyphicon-star-empty"></span>
+            </a>
+            @Model.thePost.Likes
+        </p>
+        <p> @Model.thePost.Caption</p>
 
 
-<div class="card" style="overflow-y:auto; height:500px;">
-    @foreach (var comment in Model.theComments)
-    {
-    <ul class="simple-nested">
-        <li>
-            <div class="commentcard">
-                
-                <p>@comment.Text</p>
-                <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#@comment.ID">Reply</a></p>
-                <div id="@comment.ID" class="collapse">
-                    <!--  <textarea style="margin-bottom: 1em;" class="commentbox" rows="4" cols="50" name="comment" form="usrform" placeholder="reply to the comment"></textarea>
+        <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#reply_post">Comment</a></p>
+        <div id="reply_post" class="collapse">
 
-        -->
-                    @using (Html.BeginForm("CommentOnPost", "comment", new { postID = Model.thePost.ID, parentID = comment.ID }))
-                    {
-                        <form>
-
-                            @Html.TextArea("theReply", null, new { @class = "form-control" })
-                            <input type="submit" value="Comment" style="margin-top:1em">
-
-                        </form>
-                    }
-                </div>
-
-            </div>
-            @foreach (var commentChild in comment.ChildComments)
+            @using (Html.BeginForm("CommentOnPost", "comment", new { postID = Model.thePost.ID, parentID = Model.thePost.ID }))
             {
-            <ul>
+                <form>
 
+                    @Html.TextArea("theReply", null, new { @class = "form-control" })
+                    <input type="submit" value="Comment" style="margin-top:1em">
+
+                </form>
+            }
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="card" style="overflow-y:auto; height:500px;">
+        @foreach (var comment in Model.theComments)
+        {
+            <ul class="simple-nested">
                 <li>
                     <div class="commentcard">
-                      
-                        <p>@commentChild.Text</p>
+
+                        <p>@comment.Text</p>
+                        <p style="font-size:0.75em;"><a href="" data-toggle="collapse" data-target="#@comment.ID">Reply</a></p>
+                        <div id="@comment.ID" class="collapse">
+                            <!--  <textarea style="margin-bottom: 1em;" class="commentbox" rows="4" cols="50" name="comment" form="usrform" placeholder="reply to the comment"></textarea>
+
+                            -->
+                            @using (Html.BeginForm("CommentOnPost", "comment", new { postID = Model.thePost.ID, parentID = comment.ID }))
+                            {
+                                <form>
+
+                                    @Html.TextArea("theReply", null, new { @class = "form-control" })
+                                    <input type="submit" value="Comment" style="margin-top:1em">
+
+                                </form>
+                            }
+                        </div>
 
                     </div>
+                    @foreach (var commentChild in comment.ChildComments)
+                    {
+                        <ul>
+
+                            <li>
+                                <div class="commentcard">
+
+                                    <p>@commentChild.Text</p>
+
+                                </div>
+
+                            </li>
+
+
+                        </ul>
+                    }
 
                 </li>
 
 
             </ul>
-            }
-
-        </li>
-
-
-    </ul>
-    }
+        }
 
 
 
 
-</div>
+    </div>

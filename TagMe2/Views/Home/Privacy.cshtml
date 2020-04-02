@@ -1,9 +1,135 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@using TagMe2.Models
 
-<p>Use this page to detail your site's privacy policy.</p>
+@model List<TagMe2.Models.Post>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<script type="text/javascript">
+
+    var scrollPosition = 0;
+
+    $(document).ready(function () {
+
+        $(window).scroll(function (event) {
+            scrollPosition = $(window).scrollTop();
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    // It is important to place this JavaScript code after ScriptManager1
+    var xPos, yPos;
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+    function BeginRequestHandler(sender, args) {
+        console.log('BeginRequest');
+    }
+
+    function EndRequestHandler(sender, args) {
+        $(window).scrollTop(scrollPosition);
+    }
+
+    prm.add_beginRequest(BeginRequestHandler);
+    prm.add_endRequest(EndRequestHandler);
+
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<style>
+    #container {
+        position: relative;
+        font-family: Arial;
+    }
+
+    /* Fake image */
+    .fakeimg {
+        width: 70%;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+        height: 500px;
+        border: 0.5px solid #fceeee;
+        border-radius: 8px;
+    }
+
+    /* Add a card effect for articles */
+    .card {
+        border-radius: 8px;
+        background-color: white;
+        padding: 20px;
+        margin-top: 20px;
+        width: 70%;
+        height: auto;
+        position: center;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .img {
+    }
+
+    h2 {
+    }
+
+    img.profile {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        //padding-top: 7px;
+        border: 1px solid blue;
+    }
+
+    .search-container input[type=text] {
+        float: right;
+        padding: 6px;
+        border: 1px solid medium;
+        margin-top: 8px;
+        margin-right: 16px;
+        font-size: 17px;
+    }
+
+    .search-container button {
+        float: right;
+        padding: 6px;
+        margin-top: 8px;
+        margin-right: 16px;
+        background: #ddd;
+        font-size: 17px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /*
+    #text-block {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background-color: black;
+        color: white;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+        */
+</style>
+
+
 
 <style>
     .search-container input[type=text] {
@@ -13,6 +139,10 @@
         margin-top: 8px;
         margin-right: 16px;
         font-size: 17px;
+    }
+
+    header.navbar {
+        top: 0px;
     }
 
     .search-container button {
@@ -38,51 +168,86 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
+
+
+    <div class="container" style="position:fixed; z-index:+1; width:100%">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TagMe</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="Add">Post</a>
-                        </li>
-                    </ul>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TagMe</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
 
-                </div>
-                @using (Html.BeginForm("Search", "Post", FormMethod.Get))
-                {
-                    <form class="form-group">
-                        <div class="search-container">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="Add">Post</a>
+                    </li>
+                </ul>
 
-
-                            <input type="text" placeholder="Search.." name="tag">
-                            <button type="submit">Submit</button>
-
-                        </div>
-
-                    </form>
-                }
             </div>
+            @using (Html.BeginForm("Search", "Post", FormMethod.Get))
+            {
+                <form class="form-group">
+                    <div class="search-container">
+
+
+                        <input type="text" placeholder="Search.." name="tag">
+                        <button type="submit">Search</button>
+
+                    </div>
+
+                </form>
+            }
         </nav>
 
-    </header>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
     </div>
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
+
+
+    <div style="padding-top:5em; position:center;">
+        @foreach (var post in Model)
+        {
+
+            <div class="card">
+
+                <!-- <h2>
+                        <a href="/profile">
+                            <img class="profile" src=post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
+                        </a>
+                        post.PostAuthor.FirstName post.PostAuthor.LastName
+                    </h2>
+                    <p>
+                        <a href="/map">
+                            <span class="glyphicon glyphicon-map-marker"></span>
+                        </a>
+                        post.Location.City, post.Location.Country
+                    </p>
+                -->
+                <p>
+                    <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
+
+                        <img class="fakeimg" src=@post.URL style="height:auto;">
+                </p>
+                <p>
+                    <a href="/like">
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    </a>
+                    @post.Likes
+                </p>
+                <p> @post.Caption</p>
+                <!--
+                    <form class="w3-container w3-card-4 w3-light-grey">
+                        <input class="w3-input w3-border w3-round-xxlarge" name="commentBox" type="text" placeholder="comment">
+                    </form>
+                -->
+            </div>
+        }
+
+    </div>
+
 </body>
 </html>
