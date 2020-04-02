@@ -6,9 +6,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
 <script type="text/javascript">
 
@@ -132,17 +129,95 @@
         */
 </style>
 
+
+
+<style>
+    .search-container input[type=text] {
+        float: right;
+        padding: 6px;
+        border: 1px solid medium;
+        margin-top: 8px;
+        margin-right: 16px;
+        font-size: 17px;
+    }
+
+    header.navbar{
+
+       
+         top:0px;
+    }
+    .search-container button {
+        float: right;
+        padding: 6px;
+        margin-top: 8px;
+        margin-right: 16px;
+        background: #ddd;
+        font-size: 17px;
+        border: none;
+        cursor: pointer;
+
+    }
+    
+</style>
+
+
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TagMe2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
 <body>
+   
+        
+        <div class="container" style="position:fixed; z-index:+1; width:100%">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TagMe</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="Add">Post</a>
+                        </li>
+                    </ul>
+
+                </div>
+                @using (Html.BeginForm("Search", "Post", FormMethod.Get))
+                {
+                    <form class="form-group">
+                        <div class="search-container">
 
 
-    @foreach (var post in Model)
-    {
+                            <input type="text" placeholder="Search.." name="tag">
+                            <button type="submit">Search</button>
 
-        <div class="card">
+                        </div>
 
-            <!-- <h2>
+                    </form>
+                }
+            </nav>
+
+        </div>
+      
+
+
+   
+
+    <div style="padding-top:5em; position:center;">
+        @foreach (var post in Model)
+        {
+
+            <div class="card">
+
+                <!-- <h2>
                     <a href="/profile">
                         <img class="profile" src=post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
                     </a>
@@ -155,25 +230,27 @@
                     post.Location.City, post.Location.Country
                 </p>
             -->
-            <p>
-                <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
+                <p>
+                    <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
 
-                    <img class="fakeimg" src=@post.URL style="height:auto;">
-            </p>
-            <p>
-                <a href="/like">
-                    <span class="glyphicon glyphicon-star-empty"></span>
-                </a>
-                @post.Likes
-            </p>
-            <p> @post.Caption</p>
-            <!--
+                        <img class="fakeimg" src=@post.URL style="height:auto;">
+                </p>
+                <p>
+                    <a href="/like">
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    </a>
+                    @post.Likes
+                </p>
+                <p> @post.Caption</p>
+                <!--
                 <form class="w3-container w3-card-4 w3-light-grey">
                     <input class="w3-input w3-border w3-round-xxlarge" name="commentBox" type="text" placeholder="comment">
                 </form>
             -->
-        </div>
-    }
+            </div>
+        }
+
+    </div>
 
 </body>
 </html>

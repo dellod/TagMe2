@@ -48,8 +48,7 @@ namespace TagMe2.Controllers
             }
             connection.Close();
             return View("allimageView", postsFound);
-            // this is just temporary change
-            //return View("allimageView", null);
+           
         }
 
         public IActionResult Privacy()
