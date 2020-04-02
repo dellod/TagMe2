@@ -25,11 +25,7 @@ namespace TagMe2.Controllers
         }
 
         public IActionResult Index()
-
         {
-
-
-           
             connection.Open();
             string commandText = "SELECT * FROM Post";
             SqlCommand cmd = new SqlCommand(commandText, connection);
@@ -54,7 +50,6 @@ namespace TagMe2.Controllers
             return View("allimageView", postsFound);
             // this is just temporary change
             //return View("allimageView", null);
-      
         }
 
         public IActionResult Privacy()

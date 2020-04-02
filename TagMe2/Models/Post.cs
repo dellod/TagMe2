@@ -122,11 +122,7 @@ namespace TagMe2.Models
             cmd.Parameters.AddWithValue("@imageblob", bytes);
 
             cmd.ExecuteNonQuery();
-       
-
-
-
-
+      
             string postTagsQuery = "Insert into PostTags (PostID, Tag) VALUES(@PID,@tag)";
             SqlCommand addTagsCmd = new SqlCommand(postTagsQuery, connection);
             string[] tagsArr = Tags.Split("@");

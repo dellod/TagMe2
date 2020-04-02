@@ -68,18 +68,10 @@ namespace TagMe2.Controllers
             //  Post temp = new Post(i, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg/1199px-Sant%27Angelo_bridge%2C_dusk%2C_Rome%2C_Italy.jpg", location, user, "hell ya", 5, null);
 
           */
-           
-            
 
             PostComment postWithComment = new PostComment();
             postWithComment.theComments = EventSourcingManager.retrieveCommentsFromPost(ID);
             postWithComment.thePost = Post.searchOnePost(ID);
-
-
-
-
-
-
 
             connection.Close();
             return View(postWithComment);

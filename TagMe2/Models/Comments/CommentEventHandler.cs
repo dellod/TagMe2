@@ -59,18 +59,7 @@ namespace TagMe2.Models.Comments
 
 
         }
-   
-        }
 
-    /*
-        public static void DeleteComment(Comment comment)
-        {
-  
-        }
-
-        public static void EditComment(Comment comment)
-        {
-
-        }*/
     }
+}
 

@@ -12,10 +12,13 @@ namespace TagMe2.Models.Comments
 {
     public class CommentQueryHandler
     {
+        /// <summary>
+        /// Will look up and return comment based on given GUID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static Comment displayComment(Guid id)
         {
-            //have query here to look for comment based on ID
-
             string temp = "SELECT * " +
                           "FROM CommentEvent" +
                           "WHERE UUID = {0} ;";
@@ -31,18 +34,14 @@ namespace TagMe2.Models.Comments
             string Text;
             Guid User_ID;
 
-
             reader.Read();
            
-                ID = Guid.Parse(reader["UUID"].ToString());
-                Parent_ID = Guid.Parse(reader["parent_UUID"].ToString());
-                Post_ID = Guid.Parse(reader["post_ID"].ToString());
-                Text = reader["text"].ToString();
-                User_ID = Guid.Parse(reader["author"].ToString());
-                Comment myComment = new Comment(ID, Parent_ID, Post_ID, Text, new User(),EventSourcingManager.SearchChildComments(id));
-
- 
-    
+            ID = Guid.Parse(reader["UUID"].ToString());
+            Parent_ID = Guid.Parse(reader["parent_UUID"].ToString());
+            Post_ID = Guid.Parse(reader["post_ID"].ToString());
+            Text = reader["text"].ToString();
+            User_ID = Guid.Parse(reader["author"].ToString());
+            Comment myComment = new Comment(ID, Parent_ID, Post_ID, Text, new User(),EventSourcingManager.SearchChildComments(id));
 
             reader.Close();
             return myComment;
