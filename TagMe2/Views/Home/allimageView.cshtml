@@ -215,39 +215,39 @@
         @foreach (var post in Model)
         {
 
-            <div class="card">
+        <div class="card">
 
-                <!-- <h2>
-                    <a href="/profile">
-                        <img class="profile" src=post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
-                    </a>
-                    post.PostAuthor.FirstName post.PostAuthor.LastName
-                </h2>
-                <p>
-                    <a href="/map">
-                        <span class="glyphicon glyphicon-map-marker"></span>
-                    </a>
-                    post.Location.City, post.Location.Country
-                </p>
-            -->
+            <!-- <h2>
+            <a href="/profile">
+                <img class="profile" src=post.PostAuthor.UserProfile.ProfilePictureURL alt='img'>
+            </a>
+            post.PostAuthor.FirstName post.PostAuthor.LastName
+        </h2>
+        <p>
+            <a href="/map">
+                <span class="glyphicon glyphicon-map-marker"></span>
+            </a>
+            post.Location.City, post.Location.Country
+        </p>
+    -->
+            <div>
                 <p>
                     <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
 
                         <img class="fakeimg" src=@post.URL style="height:auto;">
                 </p>
-                <p>
-                    <a href="/like">
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                    </a>
-                    @post.Likes
-                </p>
-                <p> @post.Caption</p>
-                <!--
-                <form class="w3-container w3-card-4 w3-light-grey">
-                    <input class="w3-input w3-border w3-round-xxlarge" name="commentBox" type="text" placeholder="comment">
-                </form>
-            -->
             </div>
+
+            <p> @post.Caption</p>
+
+            <!--
+
+
+        <form class="w3-container w3-card-4 w3-light-grey">
+            <input class="w3-input w3-border w3-round-xxlarge" name="commentBox" type="text" placeholder="comment">
+        </form>
+    -->
+        </div>
         }
 
     </div>

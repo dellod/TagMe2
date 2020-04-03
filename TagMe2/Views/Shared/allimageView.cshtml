@@ -155,6 +155,17 @@
         border: none;
         cursor: pointer;
     }
+     .arrow {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-top: 2px solid #000;
+        border-right: 2px solid #000;
+    }
+
+    .arrow-left {
+        transform: rotate(-135deg);
+    }
 </style>
 
 
@@ -170,14 +181,16 @@
 <body>
 
 
-    <div class="container" style="position:fixed; z-index:+1; width:100%">
+    <div class="container" style="position:fixed; z-index:+1; width:100%; top:0;">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
 
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TagMe</a>
+            <li><a href="javascript: history.back();" class="arrow arrow-left"></a></li>
+            <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TagMe</a> -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                 <ul class="navbar-nav flex-grow-1">
 
@@ -185,7 +198,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Post" asp-action="Add">Post</a>
                     </li>
                 </ul>
-
+       
             </div>
             @using (Html.BeginForm("Search", "Post", FormMethod.Get))
             {
@@ -227,17 +240,14 @@
                         post.Location.City, post.Location.Country
                     </p>
                 -->
-                <p>
-                    <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
+                <div>
+                    <p>
+                        <a href='@Url.Action("commentDisplay", "Post", new { id = post.ID})'>
 
-                        <img class="fakeimg" src=@post.URL style="height:auto;">
-                </p>
-                <p>
-                    <a href="/like">
-                        <span class="glyphicon glyphicon-star-empty"></span>
-                    </a>
-                    @post.Likes
-                </p>
+                            <img class="fakeimg" src=@post.URL style="height:auto;">
+                    </p>
+                </div>
+              
                 <p> @post.Caption</p>
                 <!--
                     <form class="w3-container w3-card-4 w3-light-grey">
