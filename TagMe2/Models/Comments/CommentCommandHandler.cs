@@ -33,7 +33,6 @@ namespace TagMe2.Models.Comments
         }
         public static void AddNewComment(Comment comment)
         {
-            // TODO: this format was given me a headache, so I edited everything, like always lol
             /*
             string temp = "INSERT INTO CommentEvent VALUES({0},{1},{2},{3},{4},{5});";
             string queryString = string.Format(temp, comment.ID, comment.Parent_ID, comment.Text, comment.Author, 1);
