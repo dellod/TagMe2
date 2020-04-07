@@ -21,11 +21,7 @@ namespace TagMe2.Models.Comments
             SqlConnection myConnection = new SqlConnection(connectionString);
             myConnection.Open();
 
-            // returns list of comments: parent comments or first level comments
-
             LinkedList<Comment> commentList = new LinkedList<Comment>();
-            // TODO need to query based on post ID, then after query by order
-            //          ORDER will be oldest to newest, so the first comment will be directly attached to the post, and the newest posts will follow afterwards.
 
             string temp = "SELECT * FROM CommentEvent WHERE post_ID = @ID";
            // string queryString = string.Format(temp,postID);
